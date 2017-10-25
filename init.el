@@ -42,7 +42,7 @@ values."
      better-defaults
      emacs-lisp
      git
-     journal
+     ;; journal
      ;; markdown
      org
      ;; (org :variables org-enable-org-journal-support t) 
@@ -526,22 +526,14 @@ you should place your code here."
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/Dropbox/org/refile.txt")
                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("r" "respond" entry (file "~/Dropbox/org/refile.txt")
-               "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("n" "note" entry (file "~/Dropbox/org/refile.txt")
-               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("i" "Diary" entry (file+datetree "~/Dropbox/org/diary.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/Dropbox/org/journal.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
-	      ("J" "Personal journal" entry (file+datetree+prompt "~/Dropbox/journal/2017-journal.org.gpg")
+               "* %<%H:%M> \n")
+              ("J" "Personal journal" entry (file+datetree+prompt "~/Dropbox/journal/2017-journal.org.gpg")
 	       "* %(format-time-string \"%H:%M\") %^{Entry} %^G\n%i%?"  :clock-in t :clock-resume t)
               ("m" "Meeting" entry (file "~/Dropbox/org/refile.txt")
                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
               ("c" "Phone call" entry (file "~/Dropbox/org/refile.txt")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file "~/Dropbox/org/refile.txt")
-               "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
 	      )))
 
 
@@ -1573,9 +1565,144 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 ;; (define-key org-mode-map (kbd "RET")
 ;;   'scimax/org-return)
 
+;; Enable org-meta-return
+;; spacemacs github discussion on org-meta-return and M-RET conflict https://github.com/syl20bnr/spacemacs/issues/9603
+;; elisp loosely based upon kitchin's better return for orgmode https://github.com/agzam/dot-spacemacs/blob/master/layers/ag-org/funcs.el#L124
+
+;; (defun org-meta-return* (&optional ignore)
+;;   "context respecting org-insert"
+;;   (interactive "P")
+;;   (if ignore
+;;       (org-return-indent)
+;;     (cond
+;;      ;; checkbox
+;;      ((org-at-item-checkbox-p) (org-insert-todo-heading nil))
+;;      ;; item
+;;      ((org-at-item-p) (org-insert-item))
+;;      ;; todo element
+;;      ((org-element-property :todo-keyword (org-element-context))
+;;       (org-insert-todo-heading 4))
+;;      ;; heading
+;;      ((org-at-heading-p) (org-insert-heading-respect-content))
+;;      ;; plain text item
+;;      ((string-or-null-p (org-context))
+;;       (progn
+;;         (let ((org-list-use-circular-motion t))
+;;           (org-beginning-of-item)
+;;           (end-of-line)
+;;           (org-meta-return*))))
+;;      ;; fall-through case
+;;      (t (org-return-indent)))))
+
+;; (define-key 'insert org-mode-map (kbd "M-RET") #'org-meta-return*)
+;; (define-key 'insert org-mode-map (kbd "RET") #'org-return-indent)
+;; (define-key 'insert org-mode-map (kbd "<S-return>") #'org-return)
+
+;; (evil-define-key 'insert org-mode-map (kbd "RET") 'evil-org-better-return)
+;; (defun evil-org-better-return (arg)
+;;   (interactive "P")
+;;   (cond ((and (not arg) (evil-org--empty-element-p))
+;;          (delete-region (line-beginning-position) (line-end-position)))
+;;         ((eolp)
+;;          (call-interactively #'evil-org-open-below))
+;;         ('otherwise
+;;          (call-interactively #'org-return-indent))))
+
+;; (defun evil-org--empty-element-p ()
+;;   (let* ((special evil-org-special-o/O)
+;;           (ignore (when (memq 'item special) evil-org-special-o/O-ignore))
+;;           (elements (append special ignore))
+;;           (e (org-element-lineage (org-element-at-point) elements t)))
+;;     (cl-case (org-element-type e)
+;;       ((table-row)
+;;        (let* ((rows (cl-remove 'hline (org-table-to-lisp)))
+;;               (row (nth (1- (org-table-current-line)) rows)))
+;;          (cl-every 'string-empty-p row)))
+;;       ((item)
+;;        (or (not (org-element-property :contents-begin e))
+;;            (> (org-element-property :contents-begin e)
+;;               (line-end-position)))))))
+
+;; (require 'org-inlinetask)
+
+;; (defun scimax/org-return (&optional ignore)
+;;   "Add new list item, heading or table row with RET.
+;; A double return on an empty element deletes it.
+;; Use a prefix arg to get regular RET. "
+;;   (interactive "P")
+;;   (if ignore
+;;       (org-return)
+;;     (cond
+
+;;      ((eq 'line-break (car (org-element-context)))
+;;       (org-return-indent))
+
+;;      ;; Open links like usual, unless point is at the end of a line.
+;;      ;; and if at beginning of line, just press enter.
+;;      ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
+;;           (bolp))
+;;       (org-return))
+
+;;      ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
+;;      ;; Johansson!
+;;      ((org-inlinetask-in-task-p)
+;;       (org-return))
+
+;;      ;; checkboxes too
+;;      ((org-at-item-checkbox-p)
+;;       (org-insert-todo-heading nil))
+
+;;      ;; lists end with two blank lines, so we need to make sure we are also not
+;;      ;; at the beginning of a line to avoid a loop where a new entry gets
+;;      ;; created with only one blank line.
+;;      ((org-in-item-p)
+;;       (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
+;;           (org-insert-heading)
+;;         (beginning-of-line)
+;;         (delete-region (line-beginning-position) (line-end-position))
+;;         (org-return)))
+
+;;      ;; org-heading
+;;      ((org-at-heading-p)
+;;       (if (not (string= "" (org-element-property :title (org-element-context))))
+;;           (progn (org-end-of-meta-data)
+;;                  (org-insert-heading-respect-content)
+;;                  (outline-show-entry))
+;;         (beginning-of-line)
+;;         (setf (buffer-substring
+;;                (line-beginning-position) (line-end-position)) "")))
+
+;;      ;; tables
+;;      ((org-at-table-p)
+;;       (if (-any?
+;;            (lambda (x) (not (string= "" x)))
+;;            (nth
+;;             (- (org-table-current-dline) 1)
+;;             (org-table-to-lisp)))
+;;           (org-return)
+;;         ;; empty row
+;;         (beginning-of-line)
+;;         (setf (buffer-substring
+;;                (line-beginning-position) (line-end-position)) "")
+;;         (org-return)))
+
+;;      ;; fall-through case
+;;      (t
+;;       (org-return)))))
+
+
+;; (define-key org-mode-map (kbd "RET")
+;;   'scimax/org-return)
+
+;; (org-defkey org-mode-map [(meta return)] 'org-meta-return)
+
+;; (global-set-key (kbd "C-S-RET") 'org-meta-return)
 
 ;; spacemacs-journal https://github.com/borgnix/spacemacs-journal
 (setq org-journal-dir "~/Dropbox/org/journal/")
+
+;; org-journal files do not have an extension. this elisp makes orgmode the default mode for filenames consisting of nothing but numbers. http://www.howardism.org/Technical/Emacs/journaling-org.html
+(add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
 
 ;;org-journal for spacemacs
 ;; (setq-default dotspacemacs-configuration-layers '(
