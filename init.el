@@ -308,10 +308,9 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-;; pin package in melpa
-
-  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
-  (push '(use-package . "melpa-stable") package-pinned-packages)
+;;;; pin package in melpa
+;; (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
+;; (push '(use-package . "melpa-stable") package-pinned-packages)
 
   )
 
@@ -1748,22 +1747,11 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  (setq deft-default-extension "org")
 
 ;; ace-jump-buffer for quicker buffer swtiching  https://github.com/waymondo/ace-jump-buffer
-;; (use-package ace-jump-buffer
-;;    :ensure t
-;;    :pin manual
-;;    :bind
-;;    ("C-;" . ace-jump-buffer)
-;;    )
-<<<<<<< HEAD
-=======
-
-
-;; dired default directory
-(when (string-equal system-type "windows-nt")
-  (setq default-directory "c:/Users/will/dropbox/work")
-  )
->>>>>>> df5f9cfc0760ffe655585434298017b43895d665
-
+ (use-package ace-jump-buffer
+    :ensure t
+    :bind
+    ("C-;" . ace-jump-buffer)
+    )
 
 ;; dired default directory
 (when (string-equal system-type "windows-nt")
@@ -1779,7 +1767,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (fuzzy company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete deft worf zoutline unfill smeargle pandoc-mode ox-pandoc ht ox-clip orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download olivetti mwim magithub markdown-mode ghub+ apiwrap ghub magit-gitflow htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit with-editor helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag ace-jump-helm-line ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word counsel-projectile column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link))))
+    (ace-jump-buffer powerline spinner fuzzy company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete deft worf zoutline unfill smeargle pandoc-mode ox-pandoc ht ox-clip orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download olivetti mwim magithub markdown-mode ghub+ apiwrap ghub magit-gitflow htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit with-editor helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag ace-jump-helm-line ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word counsel-projectile column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
