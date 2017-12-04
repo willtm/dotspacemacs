@@ -1754,6 +1754,15 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 ;;    :bind
 ;;    ("C-;" . ace-jump-buffer)
 ;;    )
+<<<<<<< HEAD
+=======
+
+
+;; dired default directory
+(when (string-equal system-type "windows-nt")
+  (setq default-directory "c:/Users/will/dropbox/work")
+  )
+>>>>>>> df5f9cfc0760ffe655585434298017b43895d665
 
 
 ;; dired default directory
