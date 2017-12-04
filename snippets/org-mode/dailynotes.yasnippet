@@ -1,0 +1,21 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Daily Notes
+# key: ddaily
+# binding: direct-keybinding
+# --
+***** daily notes
+<`(format-time-string "%Y-%m-%d %a")`>
+:PROPERTIES:
+:SLEEP:  $1   
+:RHR:  $2    
+:WEIGHT:  $3       
+:FATIGUE:  ${4:$$(yas-choose-value '("right" "center" "left"))}             
+:STRESS:  $5    
+:SORENESS:  $6      
+:END:
+****** Notes
+$7
+****** Nutrition
+$8
+
+$0
