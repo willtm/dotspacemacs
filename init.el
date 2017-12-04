@@ -1,5 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
+; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
 (defun dotspacemacs/layers ()
@@ -50,8 +50,8 @@ values."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
-     (spell-checking :variables
-                     spell-checking-enable-auto-dictionary t)
+     ;; (spell-checking :variables
+     ;;                spell-checking-enable-auto-dictionary t)
      ;; syntax-checking
      ;; version-control
      )
@@ -307,6 +307,10 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+;; pin package in melpa
+  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
+  (push '(use-package . "melpa-stable") package-pinned-packages)
+
   )
 
 (defun dotspacemacs/user-config ()
@@ -316,6 +320,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  ;; pin package in melpa
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
   ;; pandoc for emacs on windows
 
