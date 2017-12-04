@@ -38,8 +38,9 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
-     ;; auto-completion
+     auto-completion
      better-defaults
+     deft
      emacs-lisp
      git
      ;; journal
@@ -59,7 +60,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(ox-clip org-journal olivetti worf magithub)
+   dotspacemacs-additional-packages '(ox-clip olivetti worf magithub)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -1741,6 +1742,8 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
   :config (magithub-feature-autoinject t))
 
    )
+
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
