@@ -1754,8 +1754,12 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 ;;    :bind
 ;;    ("C-;" . ace-jump-buffer)
 ;;    )
-;; (load-file "c:/Users/Will/.spacemacs.d/ace-jump-buffer.el")
-;; (bind-key "C-;" 'ace-jump-buffer)
+
+
+;; dired default directory
+(when (string-equal system-type "windows-nt")
+  (setq default-directory "c:/Users/will/dropbox/work")
+  )
 
 
 ;; Do not write anything past this comment. This is where Emacs will
