@@ -1761,7 +1761,6 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
   (setq default-directory "c:/Users/will/dropbox/work")
   )
 
-
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (custom-set-variables
