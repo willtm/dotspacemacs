@@ -1747,11 +1747,20 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  (setq deft-default-extension "org")
 
 ;; ace-jump-buffer for quicker buffer swtiching  https://github.com/waymondo/ace-jump-buffer
+<<<<<<< HEAD
  (use-package ace-jump-buffer
     :ensure t
     :bind
     ("C-;" . ace-jump-buffer)
     )
+=======
+;; (use-package ace-jump-buffer
+;;    :ensure t
+;;    :pin manual
+;;    :bind
+;;    ("C-;" . ace-jump-buffer)
+;;    )
+>>>>>>> d3d05ec03727f029628f95c6bbd0867062228aa3
 
 ;; dired default directory
 (when (string-equal system-type "windows-nt")
