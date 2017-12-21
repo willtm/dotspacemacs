@@ -43,6 +43,7 @@ values."
      deft
      emacs-lisp
      git
+     html
      ;; journal
      ;; markdown
      org
@@ -309,9 +310,8 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 ;;;; pin package in melpa
-;; (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
-;; (push '(use-package . "melpa-stable") package-pinned-packages)
-
+ (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
+ (push '(use-package . "melpa-stable") package-pinned-packages)
   )
 
 (defun dotspacemacs/user-config ()
@@ -1737,21 +1737,23 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 
 ;; magithub
 ;; following these instructions: https://goo.gl/CrJrkD
-(use-package magithub
-  :after magit
-  :config (magithub-feature-autoinject t))
-   )
+;; (use-package magithub
+;;   :after magit
+;;   :config (magithub-feature-autoinject t))
+;;   )
 
 ;; deft
  (setq deft-directory "~/Dropbox/notes/notes")
  (setq deft-default-extension "org")
 
 ;; ace-jump-buffer for quicker buffer swtiching  https://github.com/waymondo/ace-jump-buffer
-;;-package ace-jump-buffer
-;;ensure t
-;;bind
-;;"C-;" . ace-jump-buffer)
-;;
+
+ (use-package ace-jump-buffer
+  :ensure t
+  :bind
+  ("C-;" . ace-jump-buffer)
+ )
+
 
 ;; (use-package ace-jump-buffer
 ;;    :ensure t
@@ -1766,6 +1768,15 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
   (setq default-directory "c:/Users/will/dropbox/work")
   )
 
+;; yasnippet
+(when (string-equal system-type "windows-nt")
+  (setq yas-snippet-dirs "c:/Users/Will/.spacemacs.d/snippets" )
+  )
+;; (yas-global-mode 1)
+
+;; do not remove, this matches dotspacemacs/user-config
+)
+
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (custom-set-variables
@@ -1775,7 +1786,8 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (use-package ws-butler worf winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen unfill toc-org spaceline smex smeargle restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox pandoc-mode ox-pandoc ox-clip orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file olivetti neotree mwim move-text magithub magit-gitflow macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish deft define-word counsel-projectile company-statistics column-enforce-mode clean-aindent-mode bind-key auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-jump-helm-line ace-jump-buffer ac-ispell))))
+    (helm-core magit-popup with-editor web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data alert ht markdown-mode evil avy ghub let-alist company counsel helm magit git-commit org-plus-contrib swiper ivy use-package ws-butler worf winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen unfill toc-org spaceline smex smeargle restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox pandoc-mode ox-pandoc ox-clip orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file olivetti neotree mwim move-text magithub magit-gitflow macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish deft define-word counsel-projectile company-statistics column-enforce-mode clean-aindent-mode bind-key auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-jump-helm-line ace-jump-buffer ac-ispell)))
+ '(safe-local-variable-values (quote ((TeX-master . t)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
